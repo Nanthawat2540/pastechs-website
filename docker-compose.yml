@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  pastechs-website:
+    image: ghcr.io/nanthawat2540/pastechs-website:latest
+    container_name: pastechs-website
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true
