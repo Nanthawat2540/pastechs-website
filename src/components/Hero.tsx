@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { ArrowRight, Zap } from 'lucide-react'
+import LogoCanvas from './LogoCanvas'
 
 const techChips = ['Software', 'AI', 'Network', 'Security']
 
@@ -48,11 +49,38 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
+
+        {/* ── Animated Canvas Logo ── */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="flex justify-center mb-8"
+        >
+          {/* Dark navy frame — matches the logo's own background */}
+          <div
+            className="rounded-2xl overflow-hidden shadow-2xl shadow-sky-900/30"
+            style={{
+              background: '#0a1628',
+              padding: '6px 12px',
+            }}
+          >
+            <LogoCanvas
+              src="/logo.png"
+              width={380}
+              height={130}
+              speed={4000}
+              intensity={0.85}
+              className="block"
+            />
+          </div>
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-sm font-medium mb-8"
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-sm font-medium mb-6"
         >
           <Zap size={14} className="text-orange-500" />
           PAS Tech Group Co., Ltd.
@@ -61,8 +89,8 @@ export default function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-slate-800"
+          transition={{ duration: 0.7, delay: 0.25 }}
+          className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-slate-800"
         >
           Empowering Business{' '}
           <span className="gradient-text">Through Technology</span>
@@ -71,10 +99,10 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          transition={{ duration: 0.7, delay: 0.35 }}
           className="max-w-2xl mx-auto mb-10"
         >
-          <p className="text-slate-600 text-lg md:text-xl leading-relaxed mb-2">
+          <p className="text-slate-600 text-lg leading-relaxed mb-2">
             PAS Tech Group delivers end-to-end technology solutions — from software development
             and AI to network infrastructure and cyber security.
           </p>
@@ -87,7 +115,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
+          transition={{ duration: 0.7, delay: 0.45 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <a
@@ -109,7 +137,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
           <div className="w-6 h-10 rounded-full border-2 border-slate-300 flex justify-center pt-2">

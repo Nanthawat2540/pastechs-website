@@ -1,4 +1,7 @@
+'use client'
+
 import { Github, Twitter, Linkedin, Globe } from 'lucide-react'
+import LogoCanvas from './LogoCanvas'
 
 const footerLinks = {
   Services: [
@@ -31,9 +34,16 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div className="md:col-span-1">
-            <a href="#" className="flex items-center gap-2 mb-4 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-orange-500 flex items-center justify-center font-bold text-white text-sm">
-                P
+            <a href="#" className="flex items-center gap-3 mb-4 group">
+              {/* Animated canvas icon in footer */}
+              <div className="w-10 h-10 rounded-lg overflow-hidden bg-[#0a1628] flex-shrink-0">
+                <LogoCanvas
+                  src="/icon.jpg"
+                  width={40}
+                  height={40}
+                  speed={5000}
+                  intensity={0.9}
+                />
               </div>
               <span className="text-xl font-bold gradient-text">PAS Tech Group</span>
             </a>

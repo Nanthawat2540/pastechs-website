@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
+import LogoCanvas from './LogoCanvas'
 
 const navLinks = [
   { label: 'Services', href: '#services' },
@@ -32,10 +33,18 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-600 to-orange-500 flex items-center justify-center font-bold text-white text-sm">
-              P
+            {/* Animated canvas icon — gradient cycles through brand colors */}
+            <div className="w-9 h-9 rounded-lg overflow-hidden bg-[#0a1628] flex-shrink-0">
+              <LogoCanvas
+                src="/icon.jpg"
+                width={36}
+                height={36}
+                speed={4000}
+                intensity={0.9}
+              />
             </div>
             <span className="text-xl font-bold gradient-text">PAS Tech Group</span>
           </a>
