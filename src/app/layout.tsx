@@ -8,29 +8,32 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'PAS Techs — Web, Server & Software Solutions',
+  title: 'PAS Tech Group — Software, AI & Network Solutions',
   description:
-    'PAS Techs delivers cutting-edge web development, server infrastructure, software development, and IT consulting services. Build smarter. Scale faster.',
+    'PAS Tech Group Co., Ltd. delivers software development, AI solutions, network infrastructure, and cyber security services. Empowering businesses through technology.',
   keywords: [
-    'web development',
-    'server infrastructure',
     'software development',
-    'IT consulting',
-    'PAS Techs',
+    'AI solutions',
+    'network infrastructure',
+    'cyber security',
+    'PAS Tech Group',
     'Thailand tech company',
+    'web application',
+    'mobile app',
+    'enterprise systems',
   ],
   openGraph: {
-    title: 'PAS Techs — Web, Server & Software Solutions',
-    description: 'Cutting-edge tech solutions for modern businesses.',
+    title: 'PAS Tech Group — Software, AI & Network Solutions',
+    description: 'Empowering businesses through technology — Software, AI, Network & Security.',
     url: 'https://pastechs.com',
-    siteName: 'PAS Techs',
+    siteName: 'PAS Tech Group',
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PAS Techs — Web, Server & Software Solutions',
-    description: 'Cutting-edge tech solutions for modern businesses.',
+    title: 'PAS Tech Group — Software, AI & Network Solutions',
+    description: 'Empowering businesses through technology — Software, AI, Network & Security.',
   },
   metadataBase: new URL('https://pastechs.com'),
 }

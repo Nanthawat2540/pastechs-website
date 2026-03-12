@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #05050f;
-  --foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #1e293b;
 }
 
 * {
@@ -30,76 +30,44 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #05050f;
+  background: #f0f9ff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #2563eb, #7c3aed);
+  background: linear-gradient(180deg, #0284c7, #ea580c);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #1d4ed8, #6d28d9);
+  background: linear-gradient(180deg, #0369a1, #c2410c);
 }
 
-/* Particle animations */
-@keyframes particle-float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.6;
-  }
-  33% {
-    transform: translateY(-30px) rotate(120deg);
-    opacity: 1;
-  }
-  66% {
-    transform: translateY(-15px) rotate(240deg);
-    opacity: 0.8;
-  }
-}
-
-@keyframes glow-pulse {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.05);
-  }
-}
-
-/* Glass morphism utility */
 @layer utilities {
-  .glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .glass-hover {
-    transition: all 0.3s ease;
-  }
-
-  .glass-hover:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 30px rgba(37, 99, 235, 0.2);
-  }
-
   .gradient-text {
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    background: linear-gradient(135deg, #0284c7, #ea580c);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .gradient-text-accent {
-    background: linear-gradient(135deg, #7c3aed, #ec4899);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .btn-primary {
+    background-color: #0284c7;
+    color: #ffffff;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #0369a1;
+  }
+
+  .btn-accent {
+    background-color: #ea580c;
+    color: #ffffff;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-accent:hover {
+    background-color: #c2410c;
   }
 }
 

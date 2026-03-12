@@ -3,66 +3,48 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Zap } from 'lucide-react'
 
-const particles = Array.from({ length: 20 }, (_, i) => ({
-  id: i,
-  x: Math.random() * 100,
-  y: Math.random() * 100,
-  size: Math.random() * 4 + 2,
-  delay: Math.random() * 6,
-  duration: Math.random() * 4 + 4,
-}))
+const techChips = ['Software', 'AI', 'Network', 'Security']
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background gradients */}
-      <div className="absolute inset-0">
-        {/* Main glow */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
+      {/* Background blobs */}
+      <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-20"
-          style={{
-            background: 'radial-gradient(circle, #2563eb 0%, #7c3aed 50%, transparent 70%)',
-            animation: 'glow-pulse 6s ease-in-out infinite',
-          }}
-        />
-        {/* Side glows */}
-        <div
-          className="absolute top-1/3 left-0 w-[400px] h-[400px] rounded-full opacity-10"
-          style={{
-            background: 'radial-gradient(circle, #7c3aed, transparent 70%)',
-          }}
+          className="absolute top-[-100px] left-[-150px] w-[500px] h-[500px] rounded-full opacity-30"
+          style={{ background: 'radial-gradient(circle, #e0f2fe, transparent 70%)' }}
         />
         <div
-          className="absolute bottom-1/4 right-0 w-[400px] h-[400px] rounded-full opacity-10"
-          style={{
-            background: 'radial-gradient(circle, #2563eb, transparent 70%)',
-          }}
+          className="absolute bottom-[-80px] right-[-100px] w-[400px] h-[400px] rounded-full opacity-30"
+          style={{ background: 'radial-gradient(circle, #fff7ed, transparent 70%)' }}
         />
-        {/* Grid overlay */}
         <div
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px',
-          }}
+          className="absolute top-1/3 right-[10%] w-[300px] h-[300px] rounded-full opacity-20"
+          style={{ background: 'radial-gradient(circle, #bae6fd, transparent 70%)' }}
         />
       </div>
 
-      {/* Floating particles */}
-      {particles.map((p) => (
-        <div
-          key={p.id}
-          className="absolute rounded-full bg-blue-500/30"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: `${p.size}px`,
-            height: `${p.size}px`,
-            animation: `particle-float ${p.duration}s ease-in-out infinite`,
-            animationDelay: `${p.delay}s`,
-          }}
-        />
-      ))}
+      {/* Floating tech chips */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {techChips.map((chip, i) => (
+          <motion.div
+            key={chip}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 0.7, y: [0, -12, 0] }}
+            transition={{
+              opacity: { duration: 0.6, delay: 0.8 + i * 0.15 },
+              y: { duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.4 },
+            }}
+            className="absolute px-3 py-1.5 rounded-full text-xs font-semibold border border-sky-200 bg-sky-50 text-sky-700 shadow-sm"
+            style={{
+              left: `${10 + i * 22}%`,
+              top: `${15 + (i % 2) * 55}%`,
+            }}
+          >
+            {chip}
+          </motion.div>
+        ))}
+      </div>
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
@@ -70,31 +52,37 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-blue-500/30 text-blue-400 text-sm font-medium mb-8"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-sm font-medium mb-8"
         >
-          <Zap size={14} className="text-yellow-400" />
-          Next-Generation Tech Solutions
+          <Zap size={14} className="text-orange-500" />
+          PAS Tech Group Co., Ltd.
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+          className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-slate-800"
         >
-          Build Smarter.{' '}
-          <span className="gradient-text">Scale Faster.</span>
+          Empowering Business{' '}
+          <span className="gradient-text">Through Technology</span>
         </motion.h1>
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="max-w-2xl mx-auto mb-10"
         >
-          PAS Techs delivers cutting-edge web development, robust server infrastructure,
-          custom software, and strategic IT consulting to power your digital transformation.
-        </motion.p>
+          <p className="text-slate-600 text-lg md:text-xl leading-relaxed mb-2">
+            PAS Tech Group delivers end-to-end technology solutions — from software development
+            and AI to network infrastructure and cyber security.
+          </p>
+          <p className="text-slate-400 text-base leading-relaxed">
+            บริษัท พีเอเอส เทค กรุ๊ป จำกัด ให้บริการด้านเทคโนโลยีครบวงจร ตั้งแต่พัฒนาซอฟต์แวร์
+            ปัญญาประดิษฐ์ โครงสร้างพื้นฐานเครือข่าย ไปจนถึงความมั่นคงปลอดภัยทางไซเบอร์
+          </p>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -104,16 +92,16 @@ export default function Hero() {
         >
           <a
             href="#contact"
-            className="group flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:opacity-90 transition-all duration-300 hover:scale-105 shadow-lg shadow-blue-600/25"
+            className="group flex items-center gap-2 px-8 py-4 rounded-xl bg-sky-600 text-white font-semibold hover:bg-sky-700 transition-all duration-300 hover:scale-105 shadow-lg shadow-sky-600/25"
           >
-            Start Your Project
+            เริ่มต้นโปรเจกต์
             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </a>
           <a
             href="#services"
-            className="flex items-center gap-2 px-8 py-4 rounded-xl glass border border-white/20 text-white font-semibold hover:bg-white/10 transition-all duration-300"
+            className="flex items-center gap-2 px-8 py-4 rounded-xl border-2 border-orange-600 text-orange-600 font-semibold hover:bg-orange-50 transition-all duration-300"
           >
-            Our Services
+            ดูบริการของเรา
           </a>
         </motion.div>
 
@@ -124,8 +112,8 @@ export default function Hero() {
           transition={{ duration: 1, delay: 1 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
-          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center pt-2">
-            <div className="w-1 h-3 bg-gradient-to-b from-blue-500 to-transparent rounded-full animate-bounce" />
+          <div className="w-6 h-10 rounded-full border-2 border-slate-300 flex justify-center pt-2">
+            <div className="w-1 h-3 bg-gradient-to-b from-sky-500 to-transparent rounded-full animate-bounce" />
           </div>
         </motion.div>
       </div>

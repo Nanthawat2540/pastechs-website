@@ -5,8 +5,8 @@ import { Menu, X } from 'lucide-react'
 
 const navLinks = [
   { label: 'Services', href: '#services' },
+  { label: 'Vision & Mission', href: '#mission' },
   { label: 'Why Us', href: '#features' },
-  { label: 'Stats', href: '#stats' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -26,7 +26,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#05050f]/80 backdrop-blur-xl border-b border-white/10 shadow-lg'
+          ? 'bg-white shadow-md border-b border-slate-200'
           : 'bg-transparent'
       }`}
     >
@@ -34,10 +34,10 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center font-bold text-white text-sm">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-600 to-orange-500 flex items-center justify-center font-bold text-white text-sm">
               P
             </div>
-            <span className="text-xl font-bold gradient-text">PAS Techs</span>
+            <span className="text-xl font-bold gradient-text">PAS Tech Group</span>
           </a>
 
           {/* Desktop nav */}
@@ -46,15 +46,15 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium relative group"
+                className="text-slate-600 hover:text-sky-600 transition-colors duration-200 text-sm font-medium relative group"
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-sky-600 transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
             <a
               href="#contact"
-              className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium hover:opacity-90 transition-opacity duration-200"
+              className="px-4 py-2 rounded-lg bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition-colors duration-200"
             >
               Get Started
             </a>
@@ -63,7 +63,7 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-gray-300 hover:text-white transition-colors p-2"
+            className="md:hidden text-slate-600 hover:text-sky-600 transition-colors p-2"
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -77,13 +77,13 @@ export default function Navbar() {
           isOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="glass border-t border-white/10 px-4 py-4 space-y-3">
+        <div className="bg-white border-t border-slate-200 px-4 py-4 space-y-3 shadow-lg">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={handleLinkClick}
-              className="block text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium py-2"
+              className="block text-slate-600 hover:text-sky-600 transition-colors duration-200 text-sm font-medium py-2"
             >
               {link.label}
             </a>
@@ -91,7 +91,7 @@ export default function Navbar() {
           <a
             href="#contact"
             onClick={handleLinkClick}
-            className="block w-full text-center px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium hover:opacity-90 transition-opacity"
+            className="block w-full text-center px-4 py-2 rounded-lg bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition-colors"
           >
             Get Started
           </a>

@@ -10,24 +10,24 @@ const contactInfo = [
     label: 'Email',
     value: 'hello@pastechs.com',
     href: 'mailto:hello@pastechs.com',
-    color: 'text-blue-400',
-    bg: 'bg-blue-500/10 border-blue-500/20',
+    iconBg: 'bg-sky-50',
+    iconColor: 'text-sky-600',
   },
   {
     icon: MessageSquare,
     label: 'Line',
     value: '@pastechs',
     href: 'https://line.me/ti/p/~pastechs',
-    color: 'text-green-400',
-    bg: 'bg-green-500/10 border-green-500/20',
+    iconBg: 'bg-green-50',
+    iconColor: 'text-green-600',
   },
   {
     icon: MapPin,
     label: 'Location',
     value: 'Thailand',
     href: '#',
-    color: 'text-pink-400',
-    bg: 'bg-pink-500/10 border-pink-500/20',
+    iconBg: 'bg-orange-50',
+    iconColor: 'text-orange-600',
   },
 ]
 
@@ -39,7 +39,6 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    // Simulate form submission
     await new Promise((r) => setTimeout(r, 1500))
     setLoading(false)
     setSubmitted(true)
@@ -50,14 +49,8 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-24 px-4 relative">
-      {/* Background glow */}
-      <div
-        className="absolute right-0 bottom-0 w-[500px] h-[500px] rounded-full opacity-5"
-        style={{ background: 'radial-gradient(circle, #ec4899, transparent 70%)' }}
-      />
-
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section id="contact" className="py-24 px-4 bg-white">
+      <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -65,14 +58,14 @@ export default function Contact() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-pink-400 text-sm font-semibold tracking-widest uppercase mb-4 block">
+          <span className="text-sky-600 text-sm font-semibold tracking-widest uppercase mb-4 block">
             Get In Touch
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
             Let&apos;s Build{' '}
-            <span className="gradient-text-accent">Something Great</span>
+            <span className="gradient-text">Something Great</span>
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-slate-500 text-lg max-w-2xl mx-auto">
             Have a project in mind? We&apos;d love to hear about it. Send us a message
             and we&apos;ll get back to you within 24 hours.
           </p>
@@ -85,20 +78,20 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="glass rounded-2xl p-8"
+            className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200"
           >
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
-                <CheckCircle size={56} className="text-green-400 mb-4" />
-                <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-                <p className="text-gray-400">
+                <CheckCircle size={56} className="text-green-500 mb-4" />
+                <h3 className="text-2xl font-bold text-slate-800 mb-2">Message Sent!</h3>
+                <p className="text-slate-500">
                   Thanks for reaching out. We&apos;ll get back to you within 24 hours.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="text-sm font-medium text-gray-300 mb-2 block">
+                  <label className="text-sm font-medium text-slate-700 mb-2 block">
                     Your Name
                   </label>
                   <input
@@ -108,11 +101,11 @@ export default function Contact() {
                     value={formState.name}
                     onChange={handleChange}
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all duration-200"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all duration-200"
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-300 mb-2 block">
+                  <label className="text-sm font-medium text-slate-700 mb-2 block">
                     Email Address
                   </label>
                   <input
@@ -122,11 +115,11 @@ export default function Contact() {
                     value={formState.email}
                     onChange={handleChange}
                     placeholder="john@company.com"
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all duration-200"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all duration-200"
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-300 mb-2 block">
+                  <label className="text-sm font-medium text-slate-700 mb-2 block">
                     Message
                   </label>
                   <textarea
@@ -136,13 +129,13 @@ export default function Contact() {
                     value={formState.message}
                     onChange={handleChange}
                     placeholder="Tell us about your project..."
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all duration-200 resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all duration-200 resize-none"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:opacity-90 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
                 >
                   {loading ? (
                     <>
@@ -169,12 +162,13 @@ export default function Contact() {
             className="space-y-6"
           >
             <div className="mb-8">
-              <h3 className="text-2xl font-bold text-white mb-3">
+              <h3 className="text-2xl font-bold text-slate-800 mb-3">
                 Ready to get started?
               </h3>
-              <p className="text-gray-400 leading-relaxed">
-                Whether you need a brand new website, a robust server setup, or strategic
-                tech advice — we&apos;re here to help. Reach out through any of the channels below.
+              <p className="text-slate-500 leading-relaxed">
+                Whether you need custom software, an AI solution, reliable network
+                infrastructure, or cyber security — we&apos;re here to help. Reach out
+                through any of the channels below.
               </p>
             </div>
 
@@ -188,18 +182,18 @@ export default function Contact() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center gap-4 glass rounded-xl p-5 group hover:bg-white/8 transition-all duration-300"
+                  className="flex items-center gap-4 bg-white rounded-xl p-5 group hover:shadow-md transition-all duration-300 border border-slate-200"
                 >
                   <div
-                    className={`w-12 h-12 rounded-xl ${info.bg} border flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}
+                    className={`w-12 h-12 rounded-xl ${info.iconBg} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}
                   >
-                    <Icon size={20} className={info.color} />
+                    <Icon size={20} className={info.iconColor} />
                   </div>
                   <div>
-                    <div className="text-gray-500 text-xs font-medium uppercase tracking-wide mb-0.5">
+                    <div className="text-slate-400 text-xs font-medium uppercase tracking-wide mb-0.5">
                       {info.label}
                     </div>
-                    <div className="text-white font-medium">{info.value}</div>
+                    <div className="text-slate-700 font-medium">{info.value}</div>
                   </div>
                 </motion.a>
               )
