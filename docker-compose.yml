@@ -6,7 +6,10 @@ services:
     container_name: pastechs-website
     restart: unless-stopped
     ports:
-      - "3000:80"
+      - "3000:3000"
+    env_file: /opt/pastechs/.env
+    volumes:
+      - /opt/pastechs/uploads:/app/public/uploads
     networks:
       - proxy-net
 
