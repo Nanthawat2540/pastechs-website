@@ -1,9 +1,33 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Code2, Network, BrainCircuit, ShieldCheck } from 'lucide-react'
+import { Code2, Network, BrainCircuit, ShieldCheck, Smartphone, Cloud, Database, Settings } from 'lucide-react'
 
-const services = [
+type LucideIcon = React.ComponentType<{ size?: number; className?: string }>
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  code2: Code2,
+  network: Network,
+  brain: BrainCircuit,
+  shield: ShieldCheck,
+  mobile: Smartphone,
+  cloud: Cloud,
+  database: Database,
+  settings: Settings,
+}
+
+interface ServiceCard {
+  icon: LucideIcon
+  title: string
+  titleTH: string
+  description: string
+  iconBg: string
+  iconColor: string
+  features: string[]
+}
+
+const STATIC_SERVICES: ServiceCard[] = [
   {
     icon: Code2,
     title: 'Software Development',
@@ -59,6 +83,36 @@ const cardVariants = {
 }
 
 export default function Services() {
+  const [services, setServices] = useState<ServiceCard[]>(STATIC_SERVICES)
+
+  useEffect(() => {
+    fetch('/api/services')
+      .then(r => r.json())
+      .then((data: unknown[]) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped = data.map((item: unknown) => {
+            const s = item as Record<string, unknown>
+            const features = (() => {
+              try { const a = JSON.parse(s.features as string); return Array.isArray(a) ? a : [] }
+              catch { return [] }
+            })()
+            const isOrange = s.color_variant === 'orange'
+            return {
+              icon: ICON_MAP[s.icon_name as string] ?? Code2,
+              title: s.title as string,
+              titleTH: (s.title_th as string) ?? '',
+              description: (s.description as string) ?? '',
+              iconBg: isOrange ? 'bg-orange-50' : 'bg-sky-100',
+              iconColor: isOrange ? 'text-orange-600' : 'text-sky-600',
+              features,
+            } as ServiceCard
+          })
+          setServices(mapped)
+        }
+      })
+      .catch(() => {}) // silent fallback to static data
+  }, [])
+
   return (
     <section id="services" className="py-24 px-4 bg-white">
       <div className="max-w-7xl mx-auto">

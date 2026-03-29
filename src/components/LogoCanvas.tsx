@@ -9,14 +9,27 @@ interface LogoCanvasProps {
   className?: string
   /** ms per full gradient cycle, default 4000 */
   speed?: number
-  /** gradient opacity 0-1, default 0.88 */
+  /** gradient base opacity 0-1, default 0.88 */
   intensity?: number
 }
 
+interface Sparkle {
+  x: number
+  y: number
+  r: number
+  life: number   // 0 → 1
+  speed: number
+  color: string
+}
+
 /**
- * Renders an image on canvas with an animated sweeping gradient (ไล่สี)
- * applied via source-atop compositing — gradient paints only through the logo pixels.
- * Colors cycle: sky-blue → cyan → teal → orange → sky-blue
+ * Renders an image on canvas with a premium animated effect:
+ * - Rotating 6-stop vibrant gradient (cyan → blue → violet → gold)
+ * - Breathing intensity (sine-wave pulse)
+ * - Soft glow shadow behind the logo
+ * - Secondary counter-rotating accent gradient for depth
+ * - Two shine sweeps (fast/narrow + slow/wide)
+ * - Sparkle particles that appear & fade within the logo
  */
 export default function LogoCanvas({
   src,
@@ -47,72 +60,138 @@ export default function LogoCanvas({
     img.crossOrigin = 'anonymous'
     img.src = src
 
+    // Sparkle color palette
+    const sparkColors = ['#00e5ff', '#60a5fa', '#a78bfa', '#fbbf24', '#f0f9ff']
+    const sparkles: Sparkle[] = []
+    let lastSparkleTs = 0
+
     img.onload = () => {
-      const draw = () => {
+      const draw = (ts: number) => {
         ctx.clearRect(0, 0, width, height)
 
-        // 1. Draw original logo
+        const phase = (Date.now() % speed) / speed   // 0 → 1
+        const angle = phase * Math.PI * 2
+
+        // Breathing: intensity pulses subtly like a heartbeat
+        const breathe = Math.sin(phase * Math.PI * 2) * 0.07
+        const alpha = Math.max(0.72, Math.min(0.98, intensity + breathe))
+
+        const cx = width * 0.5
+        const cy = height * 0.5
+        const rMax = Math.max(width, height) * 0.92
+
+        // ── 1. Soft glow behind the logo (color shifts with phase)
+        ctx.save()
+        ctx.globalCompositeOperation = 'source-over'
+        ctx.globalAlpha = 0.38
+        ctx.shadowBlur = 24
+        ctx.shadowColor = `hsla(${185 + phase * 90}, 100%, 60%, 0.85)`
+        ctx.drawImage(img, 0, 0, width, height)
+        ctx.restore()
+
+        // ── 2. Logo base — clean, full opacity
         ctx.globalCompositeOperation = 'source-over'
         ctx.globalAlpha = 1
         ctx.drawImage(img, 0, 0, width, height)
 
-        // 2. Build animated gradient
-        const phase = (Date.now() % speed) / speed          // 0 → 1
-        const angle = phase * Math.PI * 2                   // full rotation
+        // ── 3. Primary rotating 6-stop gradient (vibrant tech palette)
+        const grad = ctx.createLinearGradient(
+          cx + Math.cos(angle) * rMax, cy + Math.sin(angle) * rMax,
+          cx - Math.cos(angle) * rMax, cy - Math.sin(angle) * rMax,
+        )
+        grad.addColorStop(0,    `hsla(185, 100%, 52%, ${alpha})`)  // electric cyan
+        grad.addColorStop(0.18, `hsla(200, 100%, 58%, ${alpha})`)  // sky blue
+        grad.addColorStop(0.38, `hsla(225,  90%, 62%, ${alpha})`)  // cornflower
+        grad.addColorStop(0.58, `hsla(258,  82%, 64%, ${alpha})`)  // violet
+        grad.addColorStop(0.78, `hsla(38,   95%, 58%, ${alpha})`)  // amber-gold
+        grad.addColorStop(1,    `hsla(185, 100%, 52%, ${alpha})`)  // loop back
 
-        // Gradient origin sweeps diagonally across the logo
-        const cx = width * 0.5
-        const cy = height * 0.5
-        const radius = Math.max(width, height) * 0.75
-        const x1 = cx + Math.cos(angle) * radius
-        const y1 = cy + Math.sin(angle) * radius
-        const x2 = cx - Math.cos(angle) * radius
-        const y2 = cy - Math.sin(angle) * radius
-
-        const grad = ctx.createLinearGradient(x1, y1, x2, y2)
-
-        // Brand color stops cycling with phase offset
-        const stops: [number, string][] = [
-          [0,    `hsla(199, 92%, 39%, ${intensity})`],  // sky-600  #0284c7
-          [0.25, `hsla(187, 85%, 42%, ${intensity})`],  // cyan-600 #0891b2
-          [0.5,  `hsla(174, 72%, 38%, ${intensity})`],  // teal-600 #0d9488
-          [0.75, `hsla(22,  93%, 47%, ${intensity})`],  // orange-600 #ea580c
-          [1,    `hsla(199, 92%, 39%, ${intensity})`],  // loop back
-        ]
-
-        stops.forEach(([stop, color]) => {
-          grad.addColorStop(stop, color)
-        })
-
-        // 3. Paint gradient ONLY through existing logo pixels
         ctx.globalCompositeOperation = 'source-atop'
         ctx.globalAlpha = 1
         ctx.fillStyle = grad
         ctx.fillRect(0, 0, width, height)
 
-        // 4. Shine sweep — a thin bright diagonal band that travels left→right
-        const sweepX = ((phase * (width + 200)) - 100)
-        const shine = ctx.createLinearGradient(sweepX - 60, 0, sweepX + 60, height)
-        shine.addColorStop(0,   'rgba(255,255,255,0)')
-        shine.addColorStop(0.5, 'rgba(255,255,255,0.18)')
-        shine.addColorStop(1,   'rgba(255,255,255,0)')
+        // ── 4. Secondary counter-rotating accent gradient (adds depth + richness)
+        const angle2 = -phase * Math.PI * 1.35
+        const rSec = rMax * 0.72
+        const grad2 = ctx.createLinearGradient(
+          cx + Math.cos(angle2) * rSec, cy + Math.sin(angle2) * rSec,
+          cx - Math.cos(angle2) * rSec, cy - Math.sin(angle2) * rSec,
+        )
+        grad2.addColorStop(0,   'hsla(195, 100%, 75%, 0.20)')
+        grad2.addColorStop(0.5, 'hsla(282, 100%, 72%, 0.12)')
+        grad2.addColorStop(1,   'hsla(195, 100%, 75%, 0.20)')
+
         ctx.globalCompositeOperation = 'source-atop'
-        ctx.fillStyle = shine
+        ctx.fillStyle = grad2
         ctx.fillRect(0, 0, width, height)
 
-        // 5. Reset
+        // ── 5. Shine sweep 1 — fast, narrow, bright
+        const sx1 = phase * (width + 260) - 130
+        const sh1 = ctx.createLinearGradient(sx1 - 42, 0, sx1 + 42, height * 0.75)
+        sh1.addColorStop(0,   'rgba(255,255,255,0)')
+        sh1.addColorStop(0.5, 'rgba(255,255,255,0.32)')
+        sh1.addColorStop(1,   'rgba(255,255,255,0)')
+
+        ctx.globalCompositeOperation = 'source-atop'
+        ctx.fillStyle = sh1
+        ctx.fillRect(0, 0, width, height)
+
+        // ── 6. Shine sweep 2 — slow, wide, cool-toned
+        const phase2 = ((Date.now() * 0.52) % speed) / speed
+        const sx2 = phase2 * (width + 520) - 260
+        const sh2 = ctx.createLinearGradient(sx2 - 115, 0, sx2 + 115, height)
+        sh2.addColorStop(0,   'rgba(170,240,255,0)')
+        sh2.addColorStop(0.5, 'rgba(170,240,255,0.14)')
+        sh2.addColorStop(1,   'rgba(170,240,255,0)')
+
+        ctx.globalCompositeOperation = 'source-atop'
+        ctx.fillStyle = sh2
+        ctx.fillRect(0, 0, width, height)
+
+        // ── 7. Sparkle particles — glints within logo area
+        if (ts - lastSparkleTs > 115 && sparkles.length < 14) {
+          sparkles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            r: Math.random() * 3.2 + 1.2,
+            life: 0,
+            speed: 0.007 + Math.random() * 0.013,
+            color: sparkColors[Math.floor(Math.random() * sparkColors.length)],
+          })
+          lastSparkleTs = ts
+        }
+
+        for (let i = sparkles.length - 1; i >= 0; i--) {
+          const s = sparkles[i]
+          s.life += s.speed
+          if (s.life >= 1) { sparkles.splice(i, 1); continue }
+
+          const opa = Math.sin(s.life * Math.PI) * 0.88
+          const rg = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 2.8)
+          rg.addColorStop(0, s.color)
+          rg.addColorStop(1, 'rgba(0,0,0,0)')
+
+          ctx.globalCompositeOperation = 'source-atop'
+          ctx.globalAlpha = opa
+          ctx.fillStyle = rg
+          ctx.beginPath()
+          ctx.arc(s.x, s.y, s.r * 2.8, 0, Math.PI * 2)
+          ctx.fill()
+        }
+
+        // ── 8. Reset composite state
         ctx.globalCompositeOperation = 'source-over'
         ctx.globalAlpha = 1
 
         rafRef.current = requestAnimationFrame(draw)
       }
 
-      draw()
+      rafRef.current = requestAnimationFrame(draw)
     }
 
     img.onerror = () => {
-      // Fallback: draw placeholder text
-      ctx.fillStyle = '#0284c7'
+      ctx.fillStyle = '#00d4ff'
       ctx.font = `bold ${height * 0.4}px Inter, sans-serif`
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'

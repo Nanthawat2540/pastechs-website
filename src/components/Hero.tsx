@@ -57,22 +57,49 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className="flex justify-center mb-8"
         >
-          {/* Dark navy frame — matches the logo's own background */}
+          {/* Animated gradient border wrapper */}
           <div
-            className="rounded-2xl overflow-hidden shadow-2xl shadow-sky-900/30"
+            className="relative rounded-2xl overflow-hidden p-[2px]"
             style={{
-              background: '#0a1628',
-              padding: '6px 12px',
+              boxShadow: [
+                '0 0 0 1px rgba(14,165,233,0.25)',
+                '0 0 28px rgba(14,165,233,0.20)',
+                '0 0 60px rgba(124,58,237,0.12)',
+                '0 0 100px rgba(0,217,255,0.08)',
+                '0 28px 64px rgba(0,0,0,0.50)',
+              ].join(', '),
             }}
           >
-            <LogoCanvas
-              src="/logo.png"
-              width={380}
-              height={130}
-              speed={4000}
-              intensity={0.85}
-              className="block"
+            {/* Spinning conic-gradient — oversized so corners stay covered on rotation */}
+            <div
+              className="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] animate-spin-slow"
+              style={{
+                background: 'conic-gradient(from 0deg, #06b6d4 0%, #3b82f6 22%, #8b5cf6 44%, #ec4899 58%, #f59e0b 72%, #06b6d4 100%)',
+              }}
             />
+
+            {/* Inner dark frame */}
+            <div
+              className="relative rounded-[14px] overflow-hidden"
+              style={{ background: '#0a1628', padding: '8px 16px' }}
+            >
+              {/* Subtle dot-grid texture */}
+              <div
+                className="absolute inset-0 opacity-[0.07] pointer-events-none"
+                style={{
+                  backgroundImage: 'radial-gradient(circle, #7dd3fc 1px, transparent 1px)',
+                  backgroundSize: '14px 14px',
+                }}
+              />
+              <LogoCanvas
+                src="/logo.png"
+                width={380}
+                height={130}
+                speed={4000}
+                intensity={0.85}
+                className="relative block"
+              />
+            </div>
           </div>
         </motion.div>
 
