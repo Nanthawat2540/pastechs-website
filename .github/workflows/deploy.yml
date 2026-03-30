@@ -51,13 +51,18 @@ jobs:
 
   deploy:
     name: Deploy to server
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build-and-push
 
     steps:
-      - name: Trigger deploy webhook
+      - name: Pull & restart container
         run: |
-          curl -sf -X POST https://deploy.pastechs.com/deploy \
-            -H "x-deploy-secret: ${{ secrets.WEBHOOK_SECRET }}" \
-            --max-time 30
-          echo "Deploy triggered successfully"
+          cd ~/pastechs-website
+
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker pull ghcr.io/nanthawat2540/pastechs-website:latest
+
+          docker rm -f pastechs-website 2>/dev/null || true
+          docker-compose up -d
+
+          docker image prune -f
