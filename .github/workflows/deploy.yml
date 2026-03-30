@@ -55,15 +55,9 @@ jobs:
     needs: build-and-push
 
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            cd ~/pastechs-website
-            docker pull ghcr.io/nanthawat2540/pastechs-website:latest
-            docker rm -f pastechs-website 2>/dev/null || true
-            docker-compose up -d
-            docker image prune -f
+      - name: Trigger deploy webhook
+        run: |
+          curl -sf -X POST https://deploy.pastechs.com/deploy \
+            -H "x-deploy-secret: ${{ secrets.WEBHOOK_SECRET }}" \
+            --max-time 30
+          echo "Deploy triggered successfully"
